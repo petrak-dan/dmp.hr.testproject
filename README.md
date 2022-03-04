@@ -1,29 +1,34 @@
-# README #
+# Test project #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Implement simple RSS reader.
 
-### What is this repository for? ###
+### Technologies ###
+* ASP.NET MVC 5 + EF 6.0 or ASP.NET Core MVC + EF Core
+* Code first DB models
+* GIT for versioning
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### Functional requirements ###
+* Add RSS feed (url + name)
+* List of all feeds
+* Delete feed
+* Detail of feed
+ * List of all articles in the feed
+ * Filter articles by date (from-to; use date picker of your choice)
+ * Reload articles in feed
+ 
+### Bonus functional requirements ###
+* It's not necessary to implement this, but we'll be happy if you do one of these things :)
+* Add checkbox for deleting feeds. Add button for checking all checkboxes.
+* Search in feeds (by name) or in articles (by title).
+ 
+### What is not necessary to implement ###
+* Users, login etc. Everything will be public.
+* Cron for reloading feeds. Simple button for reloading one feed will be ok.
+* Detail of article. External link to the article will be enough.
 
-### How do I get set up? ###
+### What we want to see ###
+* Source code (in GIT)
+* If you can deploy the project somewhere, it will be nice (you can use free variant of Azure App service for example)
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+If you have any questions, please contact us on e-mail jan.bares@dmpublishing.cz or stanislav.rehak@dmpublishing.cz. However, everything should be clear :)
+ 
