@@ -29,6 +29,3 @@ Implement simple RSS reader.
 ### What we want to see ###
 * Source code (in GIT) - Please create your own GIT repository on GitHub (or Bitbucket or somewhere else), commit the code there and send us the repository.
 * If you can deploy the project somewhere, it will be nice (you can use free variant of Azure App service for example)
-
-If you have any questions, please contact us on e-mail jan.bares@dmpublishing.cz or stanislav.rehak@dmpublishing.cz. However, everything should be clear :)
- 
