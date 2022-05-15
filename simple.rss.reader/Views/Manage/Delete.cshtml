@@ -1,12 +1,12 @@
 ﻿@model Feed
 @{
-    ViewData["Name"] = "Add feed";
+    ViewData["Name"] = "Delete feed";
 }
 
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2>Add feed</h2>
+            <h2>Delete feed</h2>
         </div>
         <!--
         <div class="col text-end">
@@ -14,19 +14,18 @@
         -->
     </div>
 
-    <form method="post" class="pt-4" asp-action="Add">
+    <form method="post" class="pt-4" asp-action="DeleteFeed">
+        <input asp-for="Id" hidden />
         <div>
-            <label asp-for="Name">Name (optional)</label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" class="form-control" disabled />
         </div>
         <div>
             <label asp-for="Url"></label>
-            <input asp-for="Url" class="form-control" />
-            <span asp-validation-for="Url" class="text-danger"></span>
+            <input asp-for="Url" class="form-control" disabled />
         </div>
         <div class="pt-4">
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
             <a class="btn btn-secondary" asp-controller="Manage" asp-action="Index">Cancel</a>
         </div>
     </form>

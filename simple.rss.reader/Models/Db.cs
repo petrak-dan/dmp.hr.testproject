@@ -9,6 +9,6 @@ namespace simple.rss.reader.Models
 
         }
 
-        public DbSet<Feed> Feeds { get; set; }
+        public DbSet<Feed> Feeds { get; set; } = null!;
     }
 }

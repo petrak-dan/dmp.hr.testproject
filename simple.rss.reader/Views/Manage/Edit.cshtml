@@ -1,12 +1,12 @@
 ﻿@model Feed
 @{
-    ViewData["Name"] = "Add feed";
+    ViewData["Name"] = "Edit feed";
 }
 
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2>Add feed</h2>
+            <h2>Edit feed</h2>
         </div>
         <!--
         <div class="col text-end">
@@ -14,7 +14,7 @@
         -->
     </div>
 
-    <form method="post" class="pt-4" asp-action="Add">
+    <form method="post" class="pt-4" asp-action="Edit">
         <div>
             <label asp-for="Name">Name (optional)</label>
             <input asp-for="Name" class="form-control" />
@@ -26,7 +26,7 @@
             <span asp-validation-for="Url" class="text-danger"></span>
         </div>
         <div class="pt-4">
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary">Update</button>
             <a class="btn btn-secondary" asp-controller="Manage" asp-action="Index">Cancel</a>
         </div>
     </form>
