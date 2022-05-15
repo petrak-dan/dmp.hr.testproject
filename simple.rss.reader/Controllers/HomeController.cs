@@ -17,6 +17,7 @@ namespace simple.rss.reader.Controllers
         {
             return View();
         }
+        
 
         public IActionResult Privacy()
         {

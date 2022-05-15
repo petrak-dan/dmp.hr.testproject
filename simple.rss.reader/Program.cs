@@ -1,7 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using simple.rss.reader.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<Db>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("rssdb")));
 
 var app = builder.Build();
 

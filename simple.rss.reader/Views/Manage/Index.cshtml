@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Feed>
+@{
+    ViewData["Name"] = "Manage feeds";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Manage feeds</h2>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-primary" asp-controller="Manage" asp-action="Add">Add feed</a>
+        </div>
+    </div>
+    
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>URL</th>
+        </tr>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.Id</td>
+                <td>@m.Name</td>
+                <td>@m.Url</td>
+            </tr>
+        }
+    </table>
+
+</div> <!-- class="container" -->
