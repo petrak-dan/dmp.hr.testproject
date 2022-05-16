@@ -4,38 +4,43 @@
 }
 
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h2>Manage feeds</h2>
+    <div class="row pt-4">
+        <div class="col text-start">
+            <h2>@ViewData["Name"]</h2>
         </div>
         <div class="col text-end">
             <a class="btn btn-primary" asp-controller="Manage" asp-action="Add">Add feed</a>
         </div>
     </div>
-    
-    <table class="table table-bordered table-striped">
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>URL</th>
-            <th></th>
-        </tr>
-        @foreach (var m in Model)
-        {
-            <tr>
-                <td>@m.Id</td>
-                <td>@m.Name</td>
-                <td>@m.Url</td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <a asp-controller="Manage" asp-action="Edit" asp-route-id="@m.Id">Edit</a>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <a asp-controller="Manage" asp-action="Delete" asp-route-id="@m.Id">Delete</a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </table>
-
+    <div class="row pt-4">
+        <div class="col">
+            <table class="table table-striped">
+                <tr>
+                    <!-- <th>ID</th> -->
+                    <th>Title</th>
+                    <th>URL</th>
+                    <th>Controls</th>
+                </tr>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <!-- <td></td> -->
+                        <td>@m.Name</td>
+                        <td>@m.Url</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-controller="Manage" asp-action="Info" asp-route-id="@m.Id">Info</a>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a asp-controller="Manage" asp-action="Edit" asp-route-id="@m.Id">Edit</a>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a asp-controller="Manage" asp-action="Delete" asp-route-id="@m.Id">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
 </div> <!-- class="container" -->

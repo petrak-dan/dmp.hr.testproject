@@ -1,0 +1,47 @@
+﻿@model Feed
+@{
+    ViewData["Name"] = "Feed properties";
+}
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col">
+            <h2>@ViewData["Name"]</h2>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-primary" asp-controller="Manage" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            <a class="btn btn-danger" asp-controller="Manage" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+        </div>
+    </div>
+    <div class="row pt-4">
+        <div class="col">
+            <table class="table table-striped">
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td>@Model.Id</td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <td>URL</td>
+                    <td>@Model.Url</td>
+                </tr>
+                <tr>
+                    <td>Date created</td>
+                    <td>@Model.CreatedDateTime</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row pt-4">
+        <div class="col text-start">
+            <a class="btn btn-secondary" asp-controller="Manage" asp-action="Index">Back</a>
+        </div>
+    </div>
+</div>

@@ -3,7 +3,7 @@
 Implement simple RSS reader.
 
 ### Technologies ###
-* ASP.NET MVC 5 + EF 6.0 or ASP.NET Core MVC + EF Core <img src="/readme-icons/check-mark-svgrepo-com.svg" width="16" height="16"><img src="/readme-icons/info-svgrepo-com.svg" width="16" height="16">Core selected
+* ASP.NET MVC 5 + EF 6.0 or ASP.NET Core MVC + EF Core <img src="/readme-icons/check-mark-svgrepo-com.svg" width="16" height="16"> <img src="/readme-icons/info-svgrepo-com.svg" width="16" height="16"> Core selected
 * Code first DB models <img src="/readme-icons/check-mark-svgrepo-com.svg" width="16" height="16">
 * GIT for versioning <img src="/readme-icons/check-mark-svgrepo-com.svg" width="16" height="16">
 

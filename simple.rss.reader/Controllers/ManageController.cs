@@ -90,5 +90,14 @@ namespace simple.rss.reader.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        // GET
+        public IActionResult Info(int? id)
+        {
+            if (id == null || id == 0) { return NotFound(); }
+            var f = _db.Feeds.FirstOrDefault(x => x.Id == id);
+            if (f == null) { return NotFound(); }
+            return View(f);
+        }
     }
 }
