@@ -22,25 +22,6 @@ namespace simple.rss.reader.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("simple.rss.reader.Models.DateFilter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("To")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DateConfig");
-                });
-
             modelBuilder.Entity("simple.rss.reader.Models.Feed", b =>
                 {
                     b.Property<int>("Id")
@@ -110,6 +91,29 @@ namespace simple.rss.reader.Migrations
                     b.HasIndex("FeedId");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("simple.rss.reader.Models.Filter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Search")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("To")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Config");
                 });
 
             modelBuilder.Entity("simple.rss.reader.Models.FeedItem", b =>

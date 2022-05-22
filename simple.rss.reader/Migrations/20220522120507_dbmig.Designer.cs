@@ -12,8 +12,8 @@ using simple.rss.reader.Models;
 namespace simple.rss.reader.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20220516184926_dbmig2")]
-    partial class dbmig2
+    [Migration("20220522120507_dbmig")]
+    partial class dbmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,7 +76,7 @@ namespace simple.rss.reader.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FeedId")
+                    b.Property<int>("FeedId")
                         .HasColumnType("int");
 
                     b.Property<string>("Link")
@@ -95,11 +95,36 @@ namespace simple.rss.reader.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("simple.rss.reader.Models.Filter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Search")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("To")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Config");
+                });
+
             modelBuilder.Entity("simple.rss.reader.Models.FeedItem", b =>
                 {
                     b.HasOne("simple.rss.reader.Models.Feed", null)
                         .WithMany("Items")
-                        .HasForeignKey("FeedId");
+                        .HasForeignKey("FeedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("simple.rss.reader.Models.Feed", b =>

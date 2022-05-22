@@ -125,7 +125,7 @@ namespace simple.rss.reader.Models
         public DateTime PublishedDateTime { get; set; }
     }
 
-    public class DateFilter
+    public class Filter
     {
         [Key]
         public int Id { get; set; }
@@ -133,6 +133,8 @@ namespace simple.rss.reader.Models
         public DateTime From { get; set; } = DateTime.MinValue;
 
         public DateTime To { get; set; } = DateTime.Now;
+
+        public string Search { get; set; } = string.Empty;
     }
 
     public class DataModel
@@ -141,20 +143,20 @@ namespace simple.rss.reader.Models
         
         public List<FeedItem>? Items { get; set; }
 
-        public List<DateFilter>? DateConfig { get; set; }
+        public List<Filter>? Config { get; set; }
 
         public DateTime DateFrom { get; set; } = DateTime.MinValue;
         /* tmp test
         {
             get
             {
-                return (DateConfig?.Count > 0) ? DateConfig.Last().From : DateTime.MinValue;
+                return (Config?.Count > 0) ? Config.Last().From : DateTime.MinValue;
             }
             set
             {
-                if (DateConfig?.Count > 0)
+                if (Config?.Count > 0)
                 {
-                    DateConfig.Last().From = DateFrom;
+                    Config.Last().From = DateFrom;
                 }
             }
         }*/
@@ -164,16 +166,18 @@ namespace simple.rss.reader.Models
         {
             get
             {
-                return (DateConfig?.Count > 0) ? DateConfig.Last().To : DateTime.Now;
+                return (Config?.Count > 0) ? Config.Last().To : DateTime.Now;
             }
             set
             {
-                if (DateConfig?.Count > 0)
+                if (Config?.Count > 0)
                 {
-                    DateConfig.Last().To = DateTo;
+                    Config.Last().To = DateTo;
                 }
             }
         }*/
+
+        public string SearchString { get; set; } = string.Empty;
 
         public DateTime EarliestArticleDate
         {
@@ -188,6 +192,18 @@ namespace simple.rss.reader.Models
             get
             {
                 return (Feeds?.Count > 0) ? Feeds.Select(x => x.LatestArticleDate).Max() : DateTime.Now;
+            }
+        }
+
+        public static string Highlight(string s, string highlight)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return s.Replace(highlight, "<span class=\"text-danger\">" + highlight + "</span>", StringComparison.InvariantCultureIgnoreCase);
             }
         }
     }

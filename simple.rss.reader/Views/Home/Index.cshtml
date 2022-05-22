@@ -10,63 +10,126 @@
             <h4><i class="bi bi-rss-fill"></i> Simple RSS Reader</h4>
         </div>
         <div class="col text-end">
-            <div class="row">
-                <div class="col text-end">
-                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#datefilter" role="button" aria-expanded="false" aria-controls="datefilter"><i class="bi bi-calendar-range"></i> Filter</a>
-                    <a class="btn btn-primary" asp-controller="Home" asp-action="Reload"><i class="bi bi-arrow-clockwise"></i> Reload</a>
-                </div>
-            </div>
-            <div class="row collapse" id="datefilter">
-                <form method="post" class="pt-3" asp-controller="Home" asp-action="Index">
-                    <label>From: </label>
-                    <input asp-for="DateFrom" type="date" />
-                    <label>To: </label>
-                    <input asp-for="DateTo" type="date" />
-                    <button type="submit" class="btn btn-warning">Confirm</button>
-                    <div class="text-end pt-2">
-                        <i class="bi bi-info-square"></i> Earliest article: @Model.EarliestArticleDate.ToShortDateString()
-                        <br />
-                        <i class="bi bi-info-square"></i> Latest article: @Model.LatestArticleDate.ToShortDateString()
+            <form method="post" asp-controller="Home" asp-action="Index">
+                <div class="row">
+                    <div class="col text-end">
+                         <input asp-for="SearchString" type="text" />
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#datefilter" role="button" aria-expanded="false" aria-controls="datefilter"><i class="bi bi-calendar-range"></i> Filter</a>
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Reload"><i class="bi bi-arrow-clockwise"></i> Reload</a>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="row pt-2 collapse" id="datefilter">
+                    <div class="col text-end">
+                        <label>From: </label>
+                        <input asp-for="DateFrom" type="date" />
+                        <label>To: </label>
+                        <input asp-for="DateTo" type="date" />
+                        <button type="submit" class="btn btn-warning">Confirm</button>
+                        <div class="text-end pt-2">
+                            <i class="bi bi-info-square"></i> Earliest article: @Model.EarliestArticleDate.ToShortDateString()
+                            <br />
+                            <i class="bi bi-info-square"></i> Latest article: @Model.LatestArticleDate.ToShortDateString()
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div> <!-- class="container" -->
 
 @if (Model.Feeds != null)
 {
-    foreach (Feed m in Model.Feeds)
+    // Both search string and date range filters are combined to apply simultaneously. 
+    // Search and non-search modes have different view variants.
+    @if (string.IsNullOrEmpty(Model.SearchString)) // All feeds and items in selected date range.
     {
-        List<FeedItem> items = m.Items.Where(x => x.PublishedDateTime >= Model.DateFrom && x.PublishedDateTime <= Model.DateTo).ToList();
-        if (items.Count > 0)
+        @foreach (Feed m in Model.Feeds)
+        {
+            List<FeedItem> items = m.Items.Where(i => i.PublishedDateTime >= Model.DateFrom && i.PublishedDateTime <= Model.DateTo).ToList();
+            @if (items != null && items.Count > 0)
+            {
+                <div class="container">
+                    <div class="row pt-4">
+                        <div class="rounded border p-3">
+                            <div class="row">
+                                <div class="col-8 text-start">
+                                    <a class="link-primary text-decoration-none" style="font-weight: bold;" target="_blank" rel="noopener" href="@items[0].Link">@items[0].Title</a>
+                                    <div class="text-info" style="font-size: 0.8em">@items[0].PublishedDateTime</div>
+                                </div>
+                                <div class="col text-end">
+                                    <a class="link-dark text-decoration-none" style="font-weight: bold; padding-right: 10px;" target="_blank" rel="noopener" href="@m.Link">@m.Name</a>
+                                    <a class="btn btn-secondary" asp-controller="Manage" asp-action="Info" asp-route-id="@m.Id"><i class="bi bi-info-square"></i></a>
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col pt-1 d-inline-flex" style="font-size: 0.9em">@Html.Raw(@items[0].Description)</div>
+                            </div>
+                            <div class="row pt-2">
+                                @if (items.Count > 1)
+                                {
+                                    for (int i = 1; i < items.Count; i++)
+                                    {
+                                        <div>
+                                            <a class="link-primary text-decoration-none" style="font-size: 0.9em" target="_blank" rel="noopener" href="@items[i].Link">@items[i].Title</a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div> <!-- class="row -->
+                </div> <!-- class="container" -->
+            }
+        }
+    }
+    else // Feeds and items filtered by search string in selected date range.
+    {
+        // List feeds matching by name.
+        @foreach (Feed m in Model.Feeds.Where(f => f.Name.Contains(Model.SearchString, StringComparison.InvariantCultureIgnoreCase)))
         {
             <div class="container">
                 <div class="row pt-4">
                     <div class="rounded border p-3">
                         <div class="row">
                             <div class="col-8 text-start">
-                                <a class="link-primary text-decoration-none" style="font-weight: bold;" target="_blank" rel="noopener" href="@items[0].Link">@items[0].Title</a>
-                                <div class="text-info" style="font-size: 0.8em">@items[0].PublishedDateTime</div>
+                                <a class="link-primary text-decoration-none" data-bs-toggle="collapse" aria-expanded="false" aria-controls="@Html.Raw("matchname" + m.Id)" style="font-weight: bold;" target="_blank" rel="noopener" href="@Html.Raw("#matchname" + m.Id)"><i class="bi bi-arrow-down-square" style="padding-right: 10px;"></i> @m.Description</a>
                             </div>
                             <div class="col text-end">
-                                <a class="link-dark text-decoration-none" style="font-weight: bold; padding-right: 10px;" target="_blank" rel="noopener" href="@m.Link">@m.Name</a>
+                                <a class="link-dark text-decoration-none" style="font-weight: bold; padding-right: 10px;" target="_blank" rel="noopener" href="@m.Link">@Html.Raw(DataModel.Highlight(@m.Name!, Model.SearchString))</a>
                                 <a class="btn btn-secondary" asp-controller="Manage" asp-action="Info" asp-route-id="@m.Id"><i class="bi bi-info-square"></i></a>
                             </div>
                         </div>
-                        <div class="row pt-2">
-                             <div class="col pt-1 d-inline-flex" style="font-size: 0.9em">@Html.Raw(@items[0].Description)</div>
+                        <div class="row pt-2 collapse" id="@Html.Raw("matchname" + m.Id)">
+                        @foreach (FeedItem f in m.Items)
+                        {
+                            <div>
+                                <a class="link-primary text-decoration-none" style="font-size: 0.9em" target="_blank" rel="noopener" href="@f.Link">@f.Title</a>
+                            </div>
+                        }
+                        </div>
+                    </div>
+                </div> <!-- class="row -->
+            </div> <!-- class="container" -->
+        }
+        // List articles matching by title.
+        @foreach (FeedItem item in Model.Items!.Where
+            (i => i.Title.Contains(Model.SearchString, StringComparison.InvariantCultureIgnoreCase)
+            && i.PublishedDateTime >= Model.DateFrom && i.PublishedDateTime <= Model.DateTo))
+        {
+            <div class="container">
+                <div class="row pt-4">
+                    <div class="rounded border p-3">
+                           <div class="row">
+                                <div class="col-8 text-start">
+                                   <a class="link-primary text-decoration-none" style="font-weight: bold;" target="_blank" rel="noopener" href="@item.Link"><i class="bi bi-book" style="padding-right: 10px;"></i> @Html.Raw(DataModel.Highlight(item.Title!, Model.SearchString))</a>
+                                <div class="text-info" style="font-size: 0.8em">@item.PublishedDateTime</div>
+                            </div>
+                            <div class="col text-end">
+                                <a class="link-dark text-decoration-none" style="font-weight: bold; padding-right: 10px;" target="_blank" rel="noopener" href="@Model.Feeds.FirstOrDefault(f => f.Id == item.FeedId)!.Link">@Model.Feeds.FirstOrDefault(f => f.Id == item.FeedId)!.Name</a>
+                            </div>
                         </div>
                         <div class="row pt-2">
-                            @if (items.Count > 1)
-                            {
-                                for (int i = 1; i < items.Count; i++)
-                                {
-                                    <div>
-                                        <a class="link-primary text-decoration-none" style="font-size: 0.9em" target="_blank" rel="noopener" href="@items[i].Link">@items[i].Title</a>
-                                    </div>
-                                }
-                            }
+                            <div class="col pt-1 d-inline-flex" style="font-size: 0.9em">@Html.Raw(@item.Description)</div>
                         </div>
                     </div>
                 </div> <!-- class="row -->

@@ -13,6 +13,6 @@ namespace simple.rss.reader.Models
 
         public DbSet<FeedItem> Items { get; set; } = null!;
 
-        public DbSet<DateFilter> DateConfig { get; set; } = null!;
+        public DbSet<Filter> Config { get; set; } = null!;
     }
 }

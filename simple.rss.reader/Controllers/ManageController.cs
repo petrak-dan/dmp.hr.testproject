@@ -17,7 +17,7 @@ namespace simple.rss.reader.Controllers
             DataModel data = new();
             data.Feeds = _db.Feeds.ToList();
             data.Items = _db.Items.ToList();
-            data.DateConfig = _db.DateConfig.ToList();
+            data.Config = _db.Config.ToList();
             return View(data);
         }
 

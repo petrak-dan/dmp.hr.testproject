@@ -4,7 +4,7 @@
 
 namespace simple.rss.reader.Migrations
 {
-    public partial class dbmig3 : Migration
+    public partial class mssqlazure_migration_881 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

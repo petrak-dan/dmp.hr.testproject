@@ -23,11 +23,12 @@ namespace simple.rss.reader.Controllers
             {
                 Feeds = _db.Feeds.ToList(),
                 Items = _db.Items.ToList(),
-                DateConfig = new List<DateFilter> { new DateFilter { From = DateTime.MinValue, To = DateTime.Now } }
+                Config = new List<Filter> { 
+                    new Filter { From = DateTime.MinValue, To = DateTime.Now } }
             };
-            data.DateConfig.Last().From = data.EarliestArticleDate;
-            data.DateFrom = data.DateConfig.Last().From;
-            data.DateTo = data.DateConfig.Last().To;
+            data.Config.Last().From = data.EarliestArticleDate;
+            data.DateFrom = data.Config.Last().From;
+            data.DateTo = data.Config.Last().To;
             return View(data);
         }
 
@@ -38,23 +39,30 @@ namespace simple.rss.reader.Controllers
         {
             if (ModelState.IsValid)
             {
-                var dateconfig = _db.DateConfig.ToList();
-                _db.RemoveRange(dateconfig);
-                _db.DateConfig.Update(new DateFilter { From = data.DateFrom, To = data.DateTo + new TimeSpan(0, 23, 59, 59, 999)});
+                var config = _db.Config.ToList();
+                _db.RemoveRange(config);
+                _db.Config.Update
+                    (new Filter
+                    {
+                        From = data.DateFrom,
+                        To = data.DateTo + new TimeSpan(0, 23, 59, 59, 999),
+                        Search = string.IsNullOrWhiteSpace(data.SearchString) ? string.Empty : data.SearchString
+                    });
                 _db.SaveChanges();
             }
             data.Feeds = _db.Feeds.ToList();
             data.Items = _db.Items.ToList();
-            data.DateConfig = _db.DateConfig.ToList();
-            data.DateFrom = data.DateConfig.Last().From;
-            data.DateTo = data.DateConfig.Last().To;
+            data.Config = _db.Config.ToList();
+            data.DateFrom = data.Config.Last().From;
+            data.DateTo = data.Config.Last().To;
+            data.SearchString = data.Config.Last().Search;
             return View(data);
         }
 
         public IActionResult Reload()
         {
-            var dateconfig = _db.DateConfig.ToList();
-            _db.RemoveRange(dateconfig);
+            var config = _db.Config.ToList();
+            _db.RemoveRange(config);
             var items = _db.Items.ToList();
             _db.RemoveRange(items);
             foreach (var f in _db.Feeds)

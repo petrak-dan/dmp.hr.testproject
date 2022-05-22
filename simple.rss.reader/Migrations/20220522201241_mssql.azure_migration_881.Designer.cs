@@ -12,8 +12,8 @@ using simple.rss.reader.Models;
 namespace simple.rss.reader.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20220521174812_dbmig4")]
-    partial class dbmig4
+    [Migration("20220522201241_mssql.azure_migration_881")]
+    partial class mssqlazure_migration_881
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,25 +23,6 @@ namespace simple.rss.reader.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("simple.rss.reader.Models.DataModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateTo")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Config");
-                });
 
             modelBuilder.Entity("simple.rss.reader.Models.Feed", b =>
                 {
@@ -53,9 +34,6 @@ namespace simple.rss.reader.Migrations
 
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DataModelId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -84,8 +62,6 @@ namespace simple.rss.reader.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DataModelId");
-
                     b.ToTable("Feeds");
                 });
 
@@ -96,9 +72,6 @@ namespace simple.rss.reader.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("DataModelId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -117,38 +90,41 @@ namespace simple.rss.reader.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DataModelId");
-
                     b.HasIndex("FeedId");
 
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("simple.rss.reader.Models.Feed", b =>
+            modelBuilder.Entity("simple.rss.reader.Models.Filter", b =>
                 {
-                    b.HasOne("simple.rss.reader.Models.DataModel", null)
-                        .WithMany("Feeds")
-                        .HasForeignKey("DataModelId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Search")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("To")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Config");
                 });
 
             modelBuilder.Entity("simple.rss.reader.Models.FeedItem", b =>
                 {
-                    b.HasOne("simple.rss.reader.Models.DataModel", null)
-                        .WithMany("Items")
-                        .HasForeignKey("DataModelId");
-
                     b.HasOne("simple.rss.reader.Models.Feed", null)
                         .WithMany("Items")
                         .HasForeignKey("FeedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("simple.rss.reader.Models.DataModel", b =>
-                {
-                    b.Navigation("Feeds");
-
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("simple.rss.reader.Models.Feed", b =>

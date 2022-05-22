@@ -19,7 +19,7 @@ Implement simple RSS reader.
 ### Bonus functional requirements ###
 * It's not necessary to implement this, but we'll be happy if you do one of these things :)
 * Add checkbox for deleting feeds. Add button for checking all checkboxes.
-* Search in feeds (by name) or in articles (by title).
+* Search in feeds (by name) or in articles (by title). ✅
  
 ### What is not necessary to implement ###
 * Users, login etc. Everything will be public.
@@ -28,4 +28,4 @@ Implement simple RSS reader.
 
 ### What we want to see ###
 * Source code (in GIT) - Please create your own GIT repository on GitHub (or Bitbucket or somewhere else), commit the code there and send us the repository. ✅
-* If you can deploy the project somewhere, it will be nice (you can use free variant of Azure App service for example)
+* If you can deploy the project somewhere, it will be nice (you can use free variant of Azure App service for example) ✅
