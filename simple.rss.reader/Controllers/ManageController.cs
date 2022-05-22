@@ -14,8 +14,11 @@ namespace simple.rss.reader.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Feed> feeds = _db.Feeds;
-            return View(feeds);
+            DataModel data = new();
+            data.Feeds = _db.Feeds.ToList();
+            data.Items = _db.Items.ToList();
+            data.DateConfig = _db.DateConfig.ToList();
+            return View(data);
         }
 
         // GET
@@ -31,6 +34,7 @@ namespace simple.rss.reader.Controllers
         {
             if (ModelState.IsValid)
             {
+                f.Reload();
                 _db.Feeds.Add(f);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -39,7 +43,6 @@ namespace simple.rss.reader.Controllers
             {
                 return View();
             }
-
         }
 
         // GET
@@ -58,6 +61,9 @@ namespace simple.rss.reader.Controllers
         {
             if (ModelState.IsValid)
             {
+                var items = _db.Items.Where(item => item.FeedId == f.Id);
+                _db.RemoveRange(items);
+                f.Reload();
                 _db.Feeds.Update(f);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -66,7 +72,6 @@ namespace simple.rss.reader.Controllers
             {
                 return View();
             }
-
         }
 
         // GET
@@ -86,6 +91,10 @@ namespace simple.rss.reader.Controllers
             if (id == null || id == 0) { return NotFound(); }
             var f = _db.Feeds.FirstOrDefault(x => x.Id == id);
             if (f == null) { return NotFound(); }
+
+            var items = _db.Items.Where(item => item.FeedId == f.Id);
+            _db.RemoveRange(items);
+            _db.SaveChanges();
             _db.Feeds.Remove(f);
             _db.SaveChanges();
             return RedirectToAction("Index");
@@ -97,7 +106,21 @@ namespace simple.rss.reader.Controllers
             if (id == null || id == 0) { return NotFound(); }
             var f = _db.Feeds.FirstOrDefault(x => x.Id == id);
             if (f == null) { return NotFound(); }
+            f.Items = _db.Items.Where(x => x.FeedId == f.Id).ToList();
             return View(f);
+        }
+
+        // GET
+        public IActionResult Reload(int? id)
+        {
+            if (id == null || id == 0) { return NotFound(); }
+            var f = _db.Feeds.FirstOrDefault(x => x.Id == id);
+            if (f == null) { return NotFound(); }
+            var items = _db.Items.Where(item => item.FeedId == f.Id);
+            _db.RemoveRange(items);
+            f.Reload();
+            _db.SaveChanges();
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }

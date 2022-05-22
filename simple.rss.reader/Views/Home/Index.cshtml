@@ -1,8 +1,76 @@
-﻿@{
+﻿@model DataModel
+@{
     ViewData["Name"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h2>Dashboard</h2>
-    <p>todo</p>
-</div>
+<div class="container">
+    <div class="row pt-4">
+        <div class="col text-start">
+            <!-- <h4>@ViewData["Name"]</h4> -->
+            <h4><i class="bi bi-rss-fill"></i> Simple RSS Reader</h4>
+        </div>
+        <div class="col text-end">
+            <div class="row">
+                <div class="col text-end">
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#datefilter" role="button" aria-expanded="false" aria-controls="datefilter"><i class="bi bi-calendar-range"></i> Filter</a>
+                    <a class="btn btn-primary" asp-controller="Home" asp-action="Reload"><i class="bi bi-arrow-clockwise"></i> Reload</a>
+                </div>
+            </div>
+            <div class="row collapse" id="datefilter">
+                <form method="post" class="pt-3" asp-controller="Home" asp-action="Index">
+                    <label>From: </label>
+                    <input asp-for="DateFrom" type="date" />
+                    <label>To: </label>
+                    <input asp-for="DateTo" type="date" />
+                    <button type="submit" class="btn btn-warning">Confirm</button>
+                    <div class="text-end pt-2">
+                        <i class="bi bi-info-square"></i> Earliest article: @Model.EarliestArticleDate.ToShortDateString()
+                        <br />
+                        <i class="bi bi-info-square"></i> Latest article: @Model.LatestArticleDate.ToShortDateString()
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> <!-- class="container" -->
+
+@if (Model.Feeds != null)
+{
+    foreach (Feed m in Model.Feeds)
+    {
+        List<FeedItem> items = m.Items.Where(x => x.PublishedDateTime >= Model.DateFrom && x.PublishedDateTime <= Model.DateTo).ToList();
+        if (items.Count > 0)
+        {
+            <div class="container">
+                <div class="row pt-4">
+                    <div class="rounded border p-3">
+                        <div class="row">
+                            <div class="col-8 text-start">
+                                <a class="link-primary text-decoration-none" style="font-weight: bold;" target="_blank" rel="noopener" href="@items[0].Link">@items[0].Title</a>
+                                <div class="text-info" style="font-size: 0.8em">@items[0].PublishedDateTime</div>
+                            </div>
+                            <div class="col text-end">
+                                <a class="link-dark text-decoration-none" style="font-weight: bold; padding-right: 10px;" target="_blank" rel="noopener" href="@m.Link">@m.Name</a>
+                                <a class="btn btn-secondary" asp-controller="Manage" asp-action="Info" asp-route-id="@m.Id"><i class="bi bi-info-square"></i></a>
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                             <div class="col pt-1 d-inline-flex" style="font-size: 0.9em">@Html.Raw(@items[0].Description)</div>
+                        </div>
+                        <div class="row pt-2">
+                            @if (items.Count > 1)
+                            {
+                                for (int i = 1; i < items.Count; i++)
+                                {
+                                    <div>
+                                        <a class="link-primary text-decoration-none" style="font-size: 0.9em" target="_blank" rel="noopener" href="@items[i].Link">@items[i].Title</a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div> <!-- class="row -->
+            </div> <!-- class="container" -->
+        }
+    }
+}

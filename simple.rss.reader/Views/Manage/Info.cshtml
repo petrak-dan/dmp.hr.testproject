@@ -6,13 +6,102 @@
 <div class="container">
     <div class="row pt-4">
         <div class="col">
-            <h2>@ViewData["Name"]</h2>
+            <a class="link-dark text-decoration-none" data-bs-toggle="collapse" href="#tableobject" role="button" aria-expanded="false" aria-controls="tableobject"><h4>Object properties <i class="bi bi-arrow-down-square" style="padding-left: 10px;"></i></h4></a>
         </div>
         <div class="col text-end">
-            <a class="btn btn-primary" asp-controller="Manage" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-            <a class="btn btn-danger" asp-controller="Manage" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+            <a class="btn btn-warning" asp-controller="Manage" asp-action="Edit" asp-route-id="@Model.Id"><i class="bi bi-pencil-square"></i> Edit</a>
+            <a class="btn btn-danger" asp-controller="Manage" asp-action="Delete" asp-route-id="@Model.Id"><i class="bi bi-trash"></i> Delete</a>
         </div>
     </div>
+    <div class="collapse" id="tableobject">
+        <div class="row pt-4">
+            <div class="col">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>@Model.Id</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td>URL</td>
+                        <td><a target="_blank" rel="noopener" href="@Model.Url">@Model.Url</a></td>
+                    </tr>
+                    <tr>
+                        <td>Date created</td>
+                        <td>@Model.CreatedDateTime</td>
+                    </tr>
+                    <tr>
+                        <td>Number of articles</td>
+                        <td>@Model.Items.Count</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row pt-4">
+            <div class="col text-start">
+                <input class="btn btn-secondary" type="button" value="Back" onclick="javascript:history.back();return false;">
+            </div>
+        </div>
+    </div>
+    <div class="row pt-4">
+        <div class="col">
+            <a class="link-dark text-decoration-none" data-bs-toggle="collapse" href="#tablefeed" role="button" aria-expanded="false" aria-controls="tablefeed"><h4>Feed properties <i class="bi bi-arrow-down-square" style="padding-left: 10px;"></i></h4></a>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-primary" asp-controller="Manage" asp-action="Reload" asp-route-id="@Model.Id"><i class="bi bi-arrow-clockwise"></i> Reload</a>
+        </div>
+    </div>
+    <div class="collapse" id="tablefeed">
+        <div class="row pt-4">
+            <div class="col">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Last updated</td>
+                        <td>@Model.LastUpdatedDateTime</td>
+                    </tr>
+                    <tr>
+                        <td>Date published</td>
+                        <td>@Model.PublishedDateTime</td>
+                    </tr>
+                    <tr>
+                        <td>Title</td>
+                        <td>@Model.Title</td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td>@Model.Description</td>
+                    </tr>
+                    <tr>
+                        <td>Link</td>
+                        <td><a target="_blank" rel="noopener" href="@Model.Link">@Model.Link</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row pt-4">
+            <div class="col text-start">
+                <input class="btn btn-secondary" type="button" value="Back" onclick="javascript:history.back();return false;">
+            </div>
+        </div>
+    </div>
+    <div class="row pt-4">
+        <div class="col">
+            <h4>List of articles</h4>
+        </div>
+    </div>
+    @foreach (FeedItem item in @Model.Items)
+    {
     <div class="row pt-4">
         <div class="col">
             <table class="table table-striped">
@@ -22,26 +111,31 @@
                 </tr>
                 <tr>
                     <td>ID</td>
-                    <td>@Model.Id</td>
+                    <td>@item.Id</td>
                 </tr>
                 <tr>
-                    <td>Name</td>
-                    <td>@Model.Name</td>
+                    <td>Date published</td>
+                    <td>@item.PublishedDateTime</td>
                 </tr>
                 <tr>
-                    <td>URL</td>
-                    <td>@Model.Url</td>
+                    <td>Title</td>
+                    <td>@item.Title</td>
                 </tr>
                 <tr>
-                    <td>Date created</td>
-                    <td>@Model.CreatedDateTime</td>
+                    <td>Description</td>
+                    <td class="d-inline-flex">@Html.Raw(item.Description)</td>
+                </tr>
+                <tr>
+                    <td>Link</td>
+                    <td><a target="_blank" rel="noopener" href="@item.Link">@item.Link</a></td>
                 </tr>
             </table>
         </div>
     </div>
+    }
     <div class="row pt-4">
         <div class="col text-start">
-            <a class="btn btn-secondary" asp-controller="Manage" asp-action="Index">Back</a>
+            <input class="btn btn-secondary" type="button" value="Back" onclick="javascript:history.back();return false;">
         </div>
     </div>
 </div>

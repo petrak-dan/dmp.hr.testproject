@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row pt-4">
         <div class="col">
-            <h2>@ViewData["Name"]</h2>
+            <h4>@ViewData["Name"]</h4>
         </div>
         <!--
         <div class="col text-end">
@@ -25,8 +25,8 @@
             <input asp-for="Url" class="form-control" disabled />
         </div>
         <div class="pt-4">
-            <button type="submit" class="btn btn-danger">Delete</button>
-            <a class="btn btn-secondary" asp-controller="Manage" asp-action="Index">Cancel</a>
+            <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</button>
+            <input class="btn btn-secondary" type="button" value="Cancel" onclick="javascript:history.back();return false;">
         </div>
     </form>
 
