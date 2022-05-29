@@ -1,6 +1,6 @@
 ## Description ##
 
-ASP.NET Core MVC + EF Core test project. Use only at your own risk. **Do not attempt to use this project's code in a production enviroment** as it contains major security, performance and overall efficiency flaws. I keep this project here for testing and studying purposes only.
+ASP.NET Core MVC + EF Core test project. Use only at your own risk. **Do not attempt to use this project's code in a production environment** as it contains major security, performance and overall efficiency flaws. I keep this project here for testing and studying purposes only.
 
 ## Test project ##
 
