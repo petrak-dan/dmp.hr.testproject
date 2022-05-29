@@ -22,6 +22,7 @@ The goal: Implement simple RSS reader.
  
 ### Bonus functional requirements ###
 * Add checkbox for deleting feeds. Add button for checking all checkboxes.
+* Search in feeds (by name) or in articles (by title). ✅
 * Users, login etc. ~~Everything will be public.~~
 * Cron for reloading feeds. ~~Simple button for reloading one feed will be ok.~~
 * Detail of article. External link to the article will be enough. ✅
